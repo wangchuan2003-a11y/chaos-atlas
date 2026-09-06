@@ -75,3 +75,5 @@ tests/browser/              桌面/移动交互回归
 ```
 
 MIT 许可证。界面字形使用自托管 Manrope（SIL Open Font License），中文使用系统字体；字体分发许可证随站点发布，见 [public/manrope-license.txt](public/manrope-license.txt)。
+
+手机上默认保留增长参数与四个预设，把初值、对照与逐步播放收进“初值与逐步控制”，让分岔图更早进入视野；展开后仍是同一组控件。宽屏自动恢复展开布局。
