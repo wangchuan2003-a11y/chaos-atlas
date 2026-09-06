@@ -220,6 +220,9 @@ main {
   font-size: 19px;
   margin-bottom: 24px;
 }
+.advanced-controls > summary {
+  display: none;
+}
 .parameter-title {
   display: flex;
   align-items: center;
@@ -639,22 +642,11 @@ footer a {
     gap: 14px;
   }
   .controls {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: 20px;
+    display: block;
     padding: 17px 0 4px;
   }
   .controls h2 {
-    grid-column: 1/-1;
     margin-bottom: 17px;
-  }
-  .parameter-title[for="r-range"] {
-    grid-row: 2;
-    grid-column: 1;
-  }
-  .parameter-title[for="x-range"] {
-    grid-row: 2;
-    grid-column: 2;
   }
   .parameter-title output {
     font-size: 14px;
@@ -666,16 +658,7 @@ footer a {
   .parameter-title i {
     font-size: 13px;
   }
-  #r-range {
-    grid-row: 3;
-    grid-column: 1;
-  }
-  #x-range {
-    grid-row: 3;
-    grid-column: 2;
-  }
   .input-row {
-    grid-row: 4;
     margin-bottom: 20px;
     font-size: 10px;
   }
@@ -684,7 +667,6 @@ footer a {
     font-size: 11px;
   }
   .presets {
-    grid-column: 1/-1;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 6px;
     margin-bottom: 18px;
@@ -699,31 +681,26 @@ footer a {
     font-size: 10px;
   }
   .compare-toggle {
-    grid-column: 1/-1;
     font-size: 12px;
   }
-  #delta-label {
-    grid-column: 1/-1;
-  }
   .iteration-control {
-    grid-column: 1;
-    grid-row: 8;
     margin: 18px 0 10px;
   }
-  .playback {
-    grid-column: 1/-1;
-    grid-row: 9;
-  }
   .scrub-label {
-    grid-column: 1/-1;
     margin-top: 16px;
   }
-  #cursor {
-    grid-column: 1/-1;
+  .advanced-controls {
+    border-top: 1px solid var(--line);
   }
-  .controls > .fine:last-of-type,
-  .status {
-    grid-column: 1/-1;
+  .advanced-controls > summary {
+    display: list-item;
+    padding: 12px 0;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 650;
+  }
+  .advanced-controls[open] > summary {
+    margin-bottom: 10px;
   }
   .status {
     margin-top: 8px;

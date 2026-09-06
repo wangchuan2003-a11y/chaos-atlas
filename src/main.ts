@@ -48,6 +48,22 @@ const worker = new Worker(new URL("./bifurcation.worker.ts", import.meta.url), {
   type: "module",
 });
 
+const advancedControls = $<HTMLDetailsElement>("#advanced-controls");
+const initialCondition = $("#initial-condition");
+const mobileControls = matchMedia("(max-width: 700px)");
+function arrangeControls() {
+  // Reuse the same inputs: their values and listeners survive breakpoint moves.
+  if (mobileControls.matches) {
+    $("#advanced-body").prepend(initialCondition);
+    advancedControls.open = false;
+  } else {
+    $(".presets").before(initialCondition);
+    advancedControls.open = true;
+  }
+}
+arrangeControls();
+mobileControls.addEventListener("change", arrangeControls);
+
 type Plot = {
   ctx: CanvasRenderingContext2D;
   width: number;
