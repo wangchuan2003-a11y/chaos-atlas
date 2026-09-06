@@ -1,0 +1,824 @@
+@import "@fontsource-variable/manrope";
+
+:root {
+  font-family: "Manrope Variable", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #30233d;
+  background: #f4f1e9;
+  font-synthesis: none;
+  font-size: 14px;
+  line-height: 1.55;
+  --paper: #f4f1e9;
+  --white: #fcfaf5;
+  --ink: #30233d;
+  --purple: #503665;
+  --pink: #b32870;
+  --muted: #726875;
+  --line: #d9d2da;
+  --radius: 10px;
+  color-scheme: light;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button,
+select {
+  cursor: pointer;
+}
+button {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 9px 13px;
+  font-weight: 650;
+  white-space: nowrap;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+button:hover {
+  background: #e9e2ec;
+  border-color: #baadbf;
+}
+button:active {
+  background: #dfd3e5;
+}
+button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+button.primary {
+  background: var(--purple);
+  color: white;
+  border-color: var(--purple);
+}
+button.primary:hover {
+  background: #392648;
+}
+input,
+select {
+  color: var(--ink);
+  accent-color: var(--pink);
+  caret-color: var(--pink);
+}
+input[type="number"],
+select {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--white);
+  padding: 6px 8px;
+}
+input[type="range"] {
+  display: block;
+  width: 100%;
+  height: 24px;
+  margin: 10px 0 4px;
+  cursor: pointer;
+}
+input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  flex-shrink: 0;
+}
+a {
+  color: var(--purple);
+  text-underline-offset: 4px;
+}
+::selection {
+  background: #dfc8de;
+  color: #30233d;
+}
+:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 4px;
+}
+body::-webkit-scrollbar {
+  width: 10px;
+}
+body::-webkit-scrollbar-thumb {
+  background: #baadbf;
+  border: 3px solid var(--paper);
+  border-radius: 8px;
+}
+h1,
+h2,
+p {
+  margin: 0;
+}
+h2 {
+  font-size: 16px;
+  font-weight: 750;
+}
+p {
+  color: var(--muted);
+}
+.skip {
+  position: fixed;
+  top: -80px;
+  left: 16px;
+  padding: 12px;
+  background: var(--white);
+  z-index: 20;
+}
+.skip:focus {
+  top: 8px;
+}
+.masthead {
+  max-width: 1512px;
+  margin: auto;
+  padding: 26px 44px 23px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  flex-shrink: 0;
+}
+.brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 41px;
+  width: 45px;
+  height: 45px;
+  color: var(--pink);
+  border: 1px solid var(--pink);
+  border-radius: 50%;
+}
+.brand strong {
+  display: block;
+  font-size: 22px;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+}
+.brand span:not(.brand-mark) {
+  color: var(--muted);
+  font-size: 12px;
+}
+.equation {
+  font-family: Georgia, serif;
+  font-size: 23px;
+  font-style: italic;
+  color: var(--purple);
+  white-space: nowrap;
+}
+.equation sub {
+  font-size: 12px;
+}
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+main {
+  max-width: 1512px;
+  margin: auto;
+  padding: 0 44px;
+}
+.intro {
+  padding: 30px 0 25px;
+  display: flex;
+  align-items: baseline;
+  gap: 28px;
+}
+.intro h1 {
+  font-size: 31px;
+  line-height: 1.4;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+}
+.intro p {
+  font-size: 14px;
+}
+.mobile-break {
+  display: none;
+}
+.laboratory {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 32px;
+}
+.controls {
+  border-top: 2px solid var(--purple);
+  padding: 20px 0;
+}
+.controls h2 {
+  font-size: 19px;
+  margin-bottom: 24px;
+}
+.parameter-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+.parameter-title i {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: 17px;
+}
+.parameter-title output {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  color: var(--pink);
+  font-size: 18px;
+}
+.input-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 24px;
+}
+.input-row input {
+  width: 105px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+}
+.presets {
+  border: 0;
+  padding: 0;
+  margin: 2px 0 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.presets legend {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.presets button {
+  text-align: left;
+  white-space: normal;
+  padding: 10px 12px;
+}
+.presets button span {
+  display: block;
+  font-size: 13px;
+}
+.presets small {
+  display: block;
+  font-weight: 450;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  margin-top: 4px;
+}
+.presets button[aria-pressed="true"] {
+  border-color: var(--purple);
+  background: #e9e0ed;
+}
+.compare-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 650;
+}
+.fine {
+  font-size: 11px;
+  line-height: 1.65;
+  margin-top: 8px;
+}
+.iteration-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 24px 0 14px;
+  font-size: 12px;
+}
+.playback {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 0.8fr;
+  gap: 5px;
+}
+.playback button {
+  font-size: 11px;
+  padding: 9px 5px;
+}
+.scrub-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 20px;
+  color: var(--muted);
+}
+.scrub-label output {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.status {
+  font-size: 11px;
+  border-top: 1px solid var(--line);
+  padding-top: 13px;
+  margin-top: 18px;
+  min-height: 45px;
+  color: var(--purple);
+}
+.charts {
+  min-width: 0;
+}
+.bifurcation-panel,
+.time-panel,
+.cobweb-panel {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.panel-heading {
+  padding: 18px 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.panel-heading h2 span {
+  font-size: 11px;
+  font-weight: 450;
+  margin-left: 9px;
+  color: var(--muted);
+}
+.panel-heading p {
+  font-size: 11px;
+  margin-top: 4px;
+}
+.panel-heading button {
+  font-size: 10px;
+  padding: 6px 9px;
+}
+.bif-wrap {
+  position: relative;
+}
+.bif-wrap canvas {
+  height: 280px;
+  cursor: crosshair;
+}
+.bif-wrap #bif-loading {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 16px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 12px;
+  pointer-events: none;
+}
+.bif-wrap #bif-loading[hidden] {
+  display: none;
+}
+canvas {
+  display: block;
+  width: 100%;
+  height: 248px;
+}
+.plot-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 20px 14px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.plot-footer strong {
+  color: var(--pink);
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+.lower-plots {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 16px;
+}
+.lower-plots .panel-heading {
+  padding: 16px 18px 0;
+}
+.lower-plots .panel-heading h2 span {
+  font-size: 10px;
+}
+.lower-plots .plot-footer {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.legend b {
+  width: 15px;
+  height: 0;
+  border-top: 2px solid var(--purple);
+}
+.legend b.alternate {
+  border-top: 2px dashed var(--pink);
+  margin-left: 7px;
+}
+#separation {
+  font-variant-numeric: tabular-nums;
+}
+.reading {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 25px;
+  border-bottom: 1px solid var(--line);
+  padding: 23px 4px 20px;
+}
+.reading h2 {
+  font-size: 14px;
+}
+.reading p {
+  font-size: 12px;
+  margin-top: 7px;
+}
+.lyapunov {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0 18px;
+}
+.lyapunov span {
+  font-size: 12px;
+}
+.lyapunov strong {
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  color: var(--purple);
+}
+.lyapunov p {
+  grid-column: 1/-1;
+  font-size: 11px;
+  line-height: 1.65;
+}
+.understanding {
+  padding: 35px 0 27px;
+}
+.understanding h2 {
+  font-size: 22px;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+.explanations {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+.explanations p {
+  font-size: 12px;
+  line-height: 1.9;
+}
+.explanations strong {
+  display: block;
+  color: var(--ink);
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+.data-details {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 17px 0;
+}
+.data-details summary {
+  cursor: pointer;
+  font-weight: 650;
+  font-size: 12px;
+}
+.data-details p {
+  font-size: 12px;
+  max-width: 80ch;
+  margin: 14px 0;
+}
+.table-wrap {
+  overflow: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+th,
+td {
+  padding: 8px 15px;
+  border-bottom: 1px solid #e4dfe5;
+}
+th {
+  font-weight: 650;
+  color: var(--muted);
+}
+th:first-child,
+td:first-child {
+  text-align: left;
+}
+footer {
+  padding: 24px 0 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  font-size: 10px;
+  color: var(--muted);
+}
+footer nav {
+  display: flex;
+  gap: 18px;
+}
+footer a {
+  white-space: nowrap;
+}
+@media (min-width: 1600px) {
+  .bif-wrap canvas {
+    height: 310px;
+  }
+  canvas {
+    height: 275px;
+  }
+}
+@media (max-width: 1100px) {
+  .masthead,
+  main {
+    padding-left: 26px;
+    padding-right: 26px;
+  }
+  .masthead {
+    gap: 20px;
+  }
+  .equation {
+    font-size: 19px;
+  }
+  .header-actions button {
+    font-size: 11px;
+    padding: 9px;
+  }
+  .laboratory {
+    grid-template-columns: 215px minmax(0, 1fr);
+    gap: 22px;
+  }
+  .intro {
+    display: block;
+  }
+  .intro p {
+    margin-top: 6px;
+  }
+  .lower-plots {
+    grid-template-columns: 1fr;
+  }
+  .lower-plots canvas {
+    height: 240px;
+  }
+  .reading {
+    grid-template-columns: 1fr;
+  }
+  .explanations {
+    gap: 20px;
+  }
+}
+@media (max-width: 700px) {
+  .masthead {
+    padding: 20px;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .brand strong {
+    font-size: 21px;
+  }
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+    font-size: 34px;
+  }
+  .equation {
+    margin-left: auto;
+    font-size: 16px;
+  }
+  .header-actions {
+    width: 100%;
+  }
+  .header-actions button {
+    flex: 1;
+  }
+  .intro {
+    padding: 24px 0 22px;
+  }
+  .intro h1 {
+    font-size: 29px;
+  }
+  .intro p {
+    font-size: 12px;
+    max-width: 30ch;
+    margin-top: 8px;
+  }
+  main {
+    padding: 0 20px;
+  }
+  .laboratory {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 20px;
+    padding: 17px 0 4px;
+  }
+  .controls h2 {
+    grid-column: 1/-1;
+    margin-bottom: 17px;
+  }
+  .parameter-title[for="r-range"] {
+    grid-row: 2;
+    grid-column: 1;
+  }
+  .parameter-title[for="x-range"] {
+    grid-row: 2;
+    grid-column: 2;
+  }
+  .parameter-title output {
+    font-size: 14px;
+  }
+  .parameter-title {
+    font-size: 12px;
+    gap: 4px;
+  }
+  .parameter-title i {
+    font-size: 13px;
+  }
+  #r-range {
+    grid-row: 3;
+    grid-column: 1;
+  }
+  #x-range {
+    grid-row: 3;
+    grid-column: 2;
+  }
+  .input-row {
+    grid-row: 4;
+    margin-bottom: 20px;
+    font-size: 10px;
+  }
+  .input-row input {
+    width: 90px;
+    font-size: 11px;
+  }
+  .presets {
+    grid-column: 1/-1;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  .presets button {
+    padding: 9px 5px;
+  }
+  .presets button span {
+    font-size: 11px;
+  }
+  .presets small {
+    font-size: 10px;
+  }
+  .compare-toggle {
+    grid-column: 1/-1;
+    font-size: 12px;
+  }
+  #delta-label {
+    grid-column: 1/-1;
+  }
+  .iteration-control {
+    grid-column: 1;
+    grid-row: 8;
+    margin: 18px 0 10px;
+  }
+  .playback {
+    grid-column: 1/-1;
+    grid-row: 9;
+  }
+  .scrub-label {
+    grid-column: 1/-1;
+    margin-top: 16px;
+  }
+  #cursor {
+    grid-column: 1/-1;
+  }
+  .controls > .fine:last-of-type,
+  .status {
+    grid-column: 1/-1;
+  }
+  .status {
+    margin-top: 8px;
+    min-height: 0;
+    padding-top: 10px;
+  }
+  .panel-heading {
+    padding: 14px 12px 0;
+    align-items: flex-start;
+  }
+  .panel-heading h2 {
+    font-size: 14px;
+  }
+  .panel-heading h2 span {
+    font-size: 10px;
+    display: inline-block;
+    margin-left: 6px;
+  }
+  .panel-heading p {
+    font-size: 10px;
+    max-width: 31ch;
+  }
+  .panel-heading button {
+    font-size: 9px;
+    padding: 6px;
+  }
+  .bif-wrap canvas {
+    height: 250px;
+  }
+  .plot-footer {
+    padding-left: 12px;
+    padding-right: 12px;
+    font-size: 9px;
+  }
+  .plot-footer span:first-child {
+    max-width: 75%;
+  }
+  .lower-plots {
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .lower-plots canvas {
+    height: 240px;
+  }
+  .lower-plots .panel-heading {
+    padding: 14px 12px 0;
+  }
+  .lower-plots .plot-footer {
+    padding: 0 12px 12px;
+  }
+  .reading {
+    gap: 15px;
+    padding: 20px 0;
+  }
+  .lyapunov strong {
+    font-size: 23px;
+  }
+  .understanding {
+    padding: 25px 0;
+  }
+  .understanding h2 {
+    font-size: 21px;
+  }
+  .explanations {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .explanations strong {
+    margin-bottom: 3px;
+  }
+  .explanations p {
+    font-size: 12px;
+  }
+  .data-details summary {
+    font-size: 11px;
+  }
+  footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 13px;
+  }
+  footer nav {
+    gap: 15px;
+    font-size: 10px;
+  }
+  th,
+  td {
+    padding: 7px 9px;
+  }
+  .table-wrap {
+    font-size: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

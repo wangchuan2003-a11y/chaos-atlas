@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f4f1e9" />
+    <meta
+      name="description"
+      content="亲手拨动一个参数，看固定点如何分裂成周期与混沌。Logistic map 交互实验，含时间序列、蛛网图和分岔图。"
+    />
+    <title>Chaos Atlas · 混沌图谱</title>
+  </head>
+  <body>
+    <!-- THESIS: A linked mathematical instrument for inspecting one recurrence.
+    OWN-WORLD: Warm paper, plum ink, magenta comparison, tabular measurements.
+    STORY: Move r, inspect a branch, step the orbit, compare nearby beginnings.
+    FIRST VIEWPORT: Parameter rail beside a full-width bifurcation field; two linked plots below.
+    FORM: Brief-pinned laboratory notebook; seed 9bf49ae5, user brief overrides alternatives.
+    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md -->
+    <a class="skip" href="#workspace">跳到实验</a>
+    <header class="masthead">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">∿</span>
+        <div><strong>Chaos Atlas</strong><span>混沌图谱</span></div>
+      </div>
+      <p class="equation">
+        x<sub>n+1</sub> = r x<sub>n</sub> (1 − x<sub>n</sub>)
+      </p>
+      <div class="header-actions">
+        <button id="share">复制实验链接</button
+        ><button id="export">导出图谱 PNG</button>
+      </div>
+    </header>
+    <main id="workspace">
+      <div class="intro">
+        <h1>一点不同，<br class="mobile-break" />会走向哪里？</h1>
+        <p>同一条简单规则。试着改变 r，看长期行为如何分裂。</p>
+      </div>
+      <div class="laboratory">
+        <aside class="controls" aria-label="实验参数">
+          <h2>拨动参数</h2>
+          <label class="parameter-title" for="r-range"
+            >增长参数 <i>r</i
+            ><output id="r-value" for="r-range r-number">3.900</output></label
+          >
+          <input
+            id="r-range"
+            type="range"
+            min="0"
+            max="4"
+            step="0.001"
+            value="3.9"
+          />
+          <div class="input-row">
+            <span>0 ≤ r ≤ 4</span
+            ><input
+              id="r-number"
+              type="number"
+              aria-label="增长参数精确值"
+              min="0"
+              max="4"
+              step="0.001"
+              value="3.9"
+            />
+          </div>
+          <label class="parameter-title" for="x-range"
+            >起点 <i>x₀</i
+            ><output id="x-value" for="x-range x-number"
+              >0.2000000</output
+            ></label
+          >
+          <input
+            id="x-range"
+            type="range"
+            min="0"
+            max="1"
+            step="0.001"
+            value="0.2"
+          />
+          <div class="input-row">
+            <span>0 ≤ x₀ ≤ 1</span
+            ><input
+              id="x-number"
+              type="number"
+              aria-label="初值精确值"
+              min="0"
+              max="1"
+              step="any"
+              value="0.2"
+            />
+          </div>
+          <fieldset class="presets">
+            <legend>从一个典型场景开始</legend>
+            <button data-r="2.8">
+              <span>安定下来</span><small>r = 2.8</small>
+            </button>
+            <button data-r="3.2">
+              <span>两个落点</span><small>r = 3.2</small>
+            </button>
+            <button data-r="3.5">
+              <span>四拍循环</span><small>r = 3.5</small>
+            </button>
+            <button data-r="3.9" aria-pressed="true">
+              <span>进入混沌区</span><small>r = 3.9</small>
+            </button>
+          </fieldset>
+          <label class="compare-toggle"
+            ><input
+              id="compare"
+              type="checkbox"
+              checked
+            />比较两个极近的起点</label
+          >
+          <p class="fine" id="delta-label">第二起点与 x₀ 相差约 10⁻⁷。</p>
+          <div class="iteration-control">
+            <label for="iterations">观察步数</label
+            ><select id="iterations">
+              <option value="40">40 步</option>
+              <option value="80" selected>80 步</option>
+              <option value="160">160 步</option>
+              <option value="300">300 步</option>
+            </select>
+          </div>
+          <div class="playback">
+            <button id="restart">回到起点</button
+            ><button id="step">单步 +1</button
+            ><button id="play" class="primary">播放</button>
+          </div>
+          <label class="scrub-label" for="cursor"
+            >当前迭代 <output id="cursor-value">80 / 80</output></label
+          >
+          <input id="cursor" type="range" min="0" max="80" value="80" />
+          <p class="fine">
+            图上点击选 r；拖动进度回看每一步。播放会在末步停止。
+          </p>
+          <p id="status" class="status" role="status" aria-live="polite">
+            所有计算都在你的浏览器内完成。
+          </p>
+        </aside>
+        <div class="charts">
+          <section class="bifurcation-panel" aria-labelledby="bif-title">
+            <div class="panel-heading">
+              <div>
+                <h2 id="bif-title">分岔图 <span>长期落点</span></h2>
+                <p>一列是一种 r。落点从一支，分成两支、四支，再成为一片。</p>
+              </div>
+              <button id="domain">显示全域 0–4</button>
+            </div>
+            <div class="bif-wrap">
+              <canvas
+                id="bifurcation"
+                aria-label="分岔图，横轴参数r，纵轴长期迭代值。可使用增长参数滑块获得等价键盘操作。"
+                role="img"
+              ></canvas
+              ><span id="bif-loading">计算分岔图…</span>
+            </div>
+            <div class="plot-footer">
+              <span id="bif-note"
+                >900 个参数 · 烧入 700 步 · 每列保留 100 点</span
+              ><strong id="selected-r">r = 3.900</strong>
+            </div>
+          </section>
+          <div class="lower-plots">
+            <section class="time-panel" aria-labelledby="time-title">
+              <div class="panel-heading">
+                <div>
+                  <h2 id="time-title">时间序列 <span>相似的开始</span></h2>
+                  <p>实线是 x₀；虚线是偏移约 10⁻⁷ 的起点。</p>
+                </div>
+              </div>
+              <canvas
+                id="time-series"
+                role="img"
+                aria-label="两条轨迹随迭代步数变化的时间序列，数值可在下方数据表查阅。"
+              ></canvas>
+              <div class="plot-footer">
+                <span class="legend"
+                  ><b></b>x₀ <b class="alternate"></b>附近起点</span
+                ><span id="separation">当前差距</span>
+              </div>
+            </section>
+            <section class="cobweb-panel" aria-labelledby="cob-title">
+              <div class="panel-heading">
+                <div>
+                  <h2 id="cob-title">蛛网图 <span>一步如何发生</span></h2>
+                  <p>先向曲线，再向 y = x，重复这一跳。</p>
+                </div>
+              </div>
+              <canvas
+                id="cobweb"
+                role="img"
+                aria-label="Logistic曲线、y等于x对角线，以及当前轨迹的逐步蛛网路径。"
+              ></canvas>
+              <div class="plot-footer">
+                <span>横轴 xₙ · 纵轴 xₙ₊₁</span
+                ><span id="cob-note">最多显示最近 50 跳</span>
+              </div>
+            </section>
+          </div>
+          <section class="reading" aria-label="实验读数">
+            <div>
+              <h2>这次轨迹的读数</h2>
+              <p id="period-value"></p>
+            </div>
+            <div class="lyapunov">
+              <span>有限样本 Lyapunov 估计</span
+              ><strong id="lyapunov-value"></strong>
+              <p id="lyapunov-note"></p>
+            </div>
+          </section>
+        </div>
+      </div>
+      <section class="understanding">
+        <h2>看见复杂，也看见边界。</h2>
+        <div class="explanations">
+          <p>
+            <strong>规则确定，预测仍可能困难。</strong>
+            每一步完全由前一步决定。对某些参数，微小初值差会被放大；但差距不是每一步都增长，也不代表有外部随机噪声。
+          </p>
+          <p>
+            <strong>一张图是有限的观察。</strong>
+            分岔图只采样有限参数和迭代。周期窗口、长暂态和特殊初值都可能改变你看到的结果。浮点运算也会累积误差。
+          </p>
+          <p>
+            <strong>正指数不等于完整证明。</strong> λ ≈ 平均
+            ln|r(1−2xₙ)|，这里先烧入 1,000 步，再采样 4,000
+            项。正值是局部平均扩张的数值线索；不稳定固定点也可能有正值。采样中遇零导数保留
+            −∞。
+          </p>
+        </div>
+      </section>
+      <details class="data-details">
+        <summary>查看当前轨迹数据与计算说明</summary>
+        <p>
+          显示截至当前迭代的最近 12 行。时间序列从 x₀
+          开始，不烧入；长期周期检查与 Lyapunov
+          估计使用独立烧入窗口。第二初值在上边界处改为向下偏移。
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">n</th>
+                <th scope="col">xₙ</th>
+                <th scope="col">附近轨迹</th>
+                <th scope="col">绝对差</th>
+              </tr>
+            </thead>
+            <tbody id="data-rows"></tbody>
+          </table>
+        </div>
+      </details>
+      <footer>
+        <span>Chaos Atlas · 一个关于确定性与不可预测性的实验</span>
+        <nav aria-label="参考资料">
+          <a
+            href="https://www.nature.com/articles/261459a0"
+            target="_blank"
+            rel="noreferrer"
+            >May 原始论文</a
+          ><a
+            href="https://mathworld.wolfram.com/LogisticMap.html"
+            target="_blank"
+            rel="noreferrer"
+            >数学参考</a
+          ><a
+            href="https://github.com/wangchuan2003-a11y/chaos-atlas"
+            target="_blank"
+            rel="noreferrer"
+            >源代码与模型边界</a
+          >
+        </nav>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
