@@ -2,7 +2,7 @@
 
 一个可以亲手拨动参数的数学实验：只用 `x[n+1] = r x[n] (1 − x[n])`，观察固定点、周期和对初值的敏感性。
 
-![Chaos Atlas 的分岔图、时间序列和蛛网图](docs/preview.png)
+![Chaos Atlas 的分岔图、时间序列和蛛网图](docs/preview.jpg)
 
 GitHub Pages 目标地址：<https://wangchuan2003-a11y.github.io/chaos-atlas/>。以仓库 Actions 最近一次成功部署为实际上线状态。
 
