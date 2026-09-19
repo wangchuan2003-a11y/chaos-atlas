@@ -1,4 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
+import { readFile } from "node:fs/promises";
 
 async function openAdvanced(page: Page) {
   const details = page.locator("#advanced-controls");
@@ -118,4 +119,61 @@ test("compact mobile controls keep the experiment visible and restore desktop co
     await expect(details.locator("summary")).toBeHidden();
     await expect(page.locator("#x-number")).toBeVisible();
   }
+});
+
+test("PNG preserves clicked plots and parameters across font and encoding waits", async ({
+  page,
+}) => {
+  await page.goto("./#r=3.9&x=0.2&n=80");
+  await expect(page.locator("#bif-loading")).toBeHidden();
+  await page.evaluate(() => document.fonts.ready);
+  const baselineDownload = page.waitForEvent("download");
+  await page.locator("#export").click();
+  const baseline = await baselineDownload;
+  const baselineBytes = await readFile((await baseline.path())!);
+  await page.evaluate(() => {
+    Object.defineProperty(document.fonts, "ready", {
+      configurable: true,
+      value: new Promise<void>((resolve) =>
+        document.addEventListener("release-export-fonts", () => resolve(), {
+          once: true,
+        }),
+      ),
+    });
+    const original = HTMLCanvasElement.prototype.toBlob;
+    HTMLCanvasElement.prototype.toBlob = function (callback, type, quality) {
+      original.call(
+        this,
+        (blob) => {
+          document.addEventListener(
+            "release-export-png",
+            () => callback(blob),
+            { once: true },
+          );
+          document.documentElement.dataset.pngReady = "true";
+        },
+        type,
+        quality,
+      );
+    };
+  });
+  await page.locator("#export").click();
+  await page.locator('[data-r="2.8"]').click();
+  await expect(page.locator("#r-value")).toHaveText("2.800");
+  await page.evaluate(() =>
+    document.dispatchEvent(new Event("release-export-fonts")),
+  );
+  await expect(page.locator("html")).toHaveAttribute("data-png-ready", "true");
+  await page.locator('[data-r="3.2"]').click();
+  await openAdvanced(page);
+  await page.locator("#restart").click();
+  await expect(page.locator("#cursor-value")).toHaveText("0 / 80");
+  const download = page.waitForEvent("download");
+  await page.evaluate(() =>
+    document.dispatchEvent(new Event("release-export-png")),
+  );
+  const result = await download;
+  expect(result.suggestedFilename()).toBe("chaos-atlas-r3.9-n80.png");
+  expect(await result.failure()).toBeNull();
+  expect(await readFile((await result.path())!)).toEqual(baselineBytes);
 });

@@ -474,6 +474,20 @@ $("#share").addEventListener("click", async () => {
   }
 });
 exportButton.addEventListener("click", async () => {
+  const exported = {
+    ...parameters,
+    cursor,
+    lyapunov: $("#lyapunov-value").textContent,
+  };
+  const filename = `chaos-atlas-r${exported.r}-n${exported.cursor}.png`;
+  // Freeze the visible plots before either fonts or PNG encoding can yield.
+  const plots = [bifCanvas, timeCanvas, cobwebCanvas].map((source) => {
+    const copy = document.createElement("canvas");
+    copy.width = source.width;
+    copy.height = source.height;
+    copy.getContext("2d")!.drawImage(source, 0, 0);
+    return copy;
+  });
   await document.fonts.ready;
   const canvas = document.createElement("canvas");
   canvas.width = 1600;
@@ -486,20 +500,20 @@ exportButton.addEventListener("click", async () => {
   ctx.fillText("Chaos Atlas · 混沌图谱", 55, 66);
   ctx.font = '20px "Manrope Variable", "Microsoft YaHei", sans-serif';
   ctx.fillText(
-    `r = ${parameters.r}    x₀ = ${parameters.x0}    n = ${cursor}/${parameters.iterations}`,
+    `r = ${exported.r}    x₀ = ${exported.x0}    n = ${exported.cursor}/${exported.iterations}`,
     55,
     108,
   );
   ctx.font = 'bold 22px "Microsoft YaHei", sans-serif';
   ctx.fillText("分岔图 · 长期落点", 55, 155);
-  ctx.drawImage(bifCanvas, 45, 172, 1510, 410);
+  ctx.drawImage(plots[0], 45, 172, 1510, 410);
   ctx.fillText("时间序列", 55, 633);
   ctx.fillText("蛛网图", 870, 633);
-  ctx.drawImage(timeCanvas, 45, 660, 790, 390);
-  ctx.drawImage(cobwebCanvas, 855, 660, 700, 390);
+  ctx.drawImage(plots[1], 45, 660, 790, 390);
+  ctx.drawImage(plots[2], 855, 660, 700, 390);
   ctx.font = '18px "Microsoft YaHei", sans-serif';
   ctx.fillText(
-    `Lyapunov 有限估计 ${$("#lyapunov-value").textContent}；烧入 1000 步，采样 4000 项；不是混沌证明。`,
+    `Lyapunov 有限估计 ${exported.lyapunov}；烧入 1000 步，采样 4000 项；不是混沌证明。`,
     55,
     1120,
   );
@@ -519,7 +533,7 @@ exportButton.addEventListener("click", async () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `chaos-atlas-r${parameters.r}-n${cursor}.png`;
+    link.download = filename;
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     status.textContent = "图谱 PNG 已导出，包含当前参数和估计边界。";
